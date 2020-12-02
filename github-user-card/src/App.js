@@ -8,7 +8,8 @@ class App extends React.Component {
     super();
     this.state = {
       user: {},
-      followers: []
+      followers: [],
+      input: ""
     }
   }
 
@@ -25,7 +26,6 @@ class App extends React.Component {
   fetchFollowers = () => {
     axios.get("https://api.github.com/users/CPower1248/followers")
       .then(res => {
-        console.log("THIS IS FOLLOWERS RES: ", res)
         this.setState({followers: res.data})
       })
       .catch(err => {
@@ -38,11 +38,49 @@ class App extends React.Component {
     this.fetchFollowers();
   }
 
+  handleChange = e => {
+    this.setState({input: e.target.value})
+  }
+
+  fetchNewUser = username => {
+    axios.get(`https://api.github.com/users/${username}`)
+    .then(res => {
+      this.setState({user: res.data})
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+    this.fetchNewUser(`${this.state.input}`)
+    this.setState({input: ""})
+  }
+
+  fetchNewFollowers = username => {
+    axios.get(`https://api.github.com/users/${username}/followers`)
+      .then(res => {
+        this.setState({followers: res.data})
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  componentDidUpdate() {
+    this.fetchNewFollowers(`${this.state.user.login}`)
+  }
+
   render() {
-    console.log(this.state)
     return (
       <div className="App">
         <h1>-React Github User Card-</h1>
+        <form onSubmit={this.handleSubmit}>
+          <label>Search Username:
+            <input type="text" name="username" value={this.state.input} onChange={this.handleChange} />
+          </label>
+        </form>
         <UserCard user={this.state.user} followers={this.state.followers} />
       </div>
     );

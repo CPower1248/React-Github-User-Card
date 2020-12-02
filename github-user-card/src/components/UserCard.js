@@ -2,7 +2,6 @@ import React from "react"
 
 const UserCard = props => {
     const { user, followers } = props
-    console.log("FOLLOWERS: ", followers)
 
     return (
         <div className="usercard">
