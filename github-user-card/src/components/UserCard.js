@@ -15,9 +15,9 @@ const UserCard = props => {
             <div className="bio">
                 <p>Bio:</p>
                 <p>{user.bio}</p>
-            </div>
+            </div>                
+            <h5>Followers:</h5>
             <div className="followers">
-                <h5>Followers:</h5>
                 {followers.map(item => {
                     return (
                         <div className="follower">
