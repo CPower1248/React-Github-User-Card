@@ -79,6 +79,7 @@ class App extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <label>Search Username:
             <input type="text" name="username" value={this.state.input} onChange={this.handleChange} />
+            <button onClick={this.handleSubmit}>Submit</button>
           </label>
         </form>
         <UserCard user={this.state.user} followers={this.state.followers} />
